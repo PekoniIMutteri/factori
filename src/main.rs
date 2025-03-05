@@ -3,15 +3,28 @@ mod display;
 mod input;
 
 fn main() {
+    let mut world = World::new();
     display::display_all();
 
-    'MainLoop: loop {
-        input::input();
-        // TODO handle the quit case
-        // to break out of the MainLoop
+    while world.playing {
+        input::input(&mut world);
 
-        tick::tick(1);
+        tick::tick(&mut world);
 
         display::display_all();
+    }
+}
+
+struct World {
+    input: input::Input,
+    playing: bool,
+}
+
+impl World {
+    fn new() -> World {
+        World {
+            input: input::Input::Wait(5),
+            playing: true,
+        }
     }
 }
