@@ -1,6 +1,11 @@
-mod tick;
+mod world;
 mod display;
 mod input;
+
+use world::World;
+
+const TERMINAL_SIZE: (u32, u32) = (238, 59);
+const BOTTOM_SPACE: u32 = 10;
 
 fn main() {
     let mut world = World::new();
@@ -9,22 +14,8 @@ fn main() {
     while world.playing {
         input::input(&mut world);
 
-        tick::tick(&mut world);
+        world.tick();
 
         display::display_all();
-    }
-}
-
-struct World {
-    input: input::Input,
-    playing: bool,
-}
-
-impl World {
-    fn new() -> World {
-        World {
-            input: input::Input::Wait(5),
-            playing: true,
-        }
     }
 }
